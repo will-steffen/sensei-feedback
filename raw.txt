@@ -1,0 +1,28 @@
+baseModel: { id, createDate }
+
+project: { name, userList }
+user: { name, username, email, passwordHash, passwordhSalt, projectList, role, managerUser }
+linkProjectUser: { user, project }
+competence: { name, role? } //if no role, is to everyone
+role: enum { manager, engineer, intern }
+feedback: { evaluateList, authorUser, targetUser, project, feedbackPeriod }]
+evaluate: { competence, rate, comment, feedback }
+
+rate: enum { bad, notGood, regular, good, excellent }
+
+feedbackPeriod: { startDate, endDate, feedbackList }
+
+
+routes:
+	api/auth (GET) return true; verify if accessTOken is valid;
+	api/auth (POST) { username, password }	return the accessToken
+	api/user (GET) return the currento logged user;
+	api/feedback/userlist (GET) return [{ name, role, rate, feedbackId }]
+	api/competence (GET) return list of competences
+	api/feedback (POST) 
+		{
+			userId,
+			[{ rate, comment, competenceId }],
+			comment
+		}
+	api/feedback/{id} (GET)
