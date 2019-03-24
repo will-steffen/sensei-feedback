@@ -55,14 +55,14 @@ namespace Feedback
             services.AddScoped<UserDataAccess>();
             services.AddScoped<ProjectDataAccess>();
             services.AddScoped<CompetenceDataAccess>();
+            services.AddScoped<FeedbackModelDataAccess>();
 
-            
             services.AddScoped<UserBusiness>();
             services.AddScoped<MockBusiness>();
             services.AddScoped<CompetenceBusiness>();
             services.AddScoped<FeedbackSeasonBusiness>();
-
-
+            services.AddScoped<FeedbackModelBusiness>();
+            
 
             IServiceProvider serviceProvider = services.BuildServiceProvider();
 

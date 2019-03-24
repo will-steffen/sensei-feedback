@@ -18,10 +18,15 @@ namespace Feedback.Controllers
         
 
         private FeedbackSeasonBusiness _feedbackSeasonBusiness;
+        private FeedbackModelBusiness _feedbackModelBusiness;
 
-        public FeedbackController(FeedbackSeasonBusiness feedbackSeasonBusiness)
-        {
+        public FeedbackController(
+            FeedbackSeasonBusiness feedbackSeasonBusiness,
+            FeedbackModelBusiness feedbackModelBusiness
+
+        ) {
             _feedbackSeasonBusiness = feedbackSeasonBusiness;
+            _feedbackModelBusiness = feedbackModelBusiness;
         }
 
 
@@ -61,9 +66,15 @@ namespace Feedback.Controllers
         [HttpGet("{id}")]
         public ActionResult<FeedbackDTO> GetById(long id)
         {
-            return Ok(new FeedbackDTO(new FeedbackModel
+            try
             {
-            }));
+                FeedbackModel feddback = _feedbackModelBusiness.GetById(id);
+                return Ok(new FeedbackDTO(feddback));
+            }
+            catch (Exception e)
+            {
+                return BadRequest();
+            }
         }
 
         [SwaggerOperation(Summary = "Save a new Feedback")]
