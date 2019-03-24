@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Feedback.Business.Entities;
 using Feedback.DomainModel;
 using Feedback.DomainModel.Entities;
 using Feedback.DomainModel.Enums;
@@ -14,6 +15,16 @@ namespace Feedback.Controllers
 {
     public class FeedbackController : BaseController
     {
+        
+
+        private FeedbackSeasonBusiness _feedbackSeasonBusiness;
+
+        public FeedbackController(FeedbackSeasonBusiness feedbackSeasonBusiness)
+        {
+            _feedbackSeasonBusiness = feedbackSeasonBusiness;
+        }
+
+
         [SwaggerOperation(
             Summary = "Get Feedback UserList",
             Description = "Get a list of User the current User have to evaluate")]
@@ -60,6 +71,35 @@ namespace Feedback.Controllers
         public ActionResult Post([FromBody] SaveFeedbackRequestDTO dto)
         {
             return Ok();
+        }
+
+
+        [SwaggerOperation(Summary = "Get the current FeedbackSeason, of it exists")]
+        [HttpGet("season")]
+        public ActionResult<FeedbackSeasonDTO> GetSeason()
+        {
+            try
+            {
+                return Ok(new FeedbackSeasonDTO(_feedbackSeasonBusiness.GetCurrent()));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [SwaggerOperation(Summary = "Get the list of Seasons")]
+        [HttpGet("season-list")]
+        public ActionResult<IEnumerable<FeedbackSeasonDTO>> GetSeasonList()
+        {
+            try
+            {
+                return Ok(_feedbackSeasonBusiness.List().ToList().Select(x => new FeedbackSeasonDTO(x)));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
 }

@@ -60,8 +60,7 @@ namespace Feedback
             services.AddScoped<UserBusiness>();
             services.AddScoped<MockBusiness>();
             services.AddScoped<CompetenceBusiness>();
-
-            
+            services.AddScoped<FeedbackSeasonBusiness>();
 
 
 

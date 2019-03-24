@@ -10,6 +10,11 @@ namespace Feedback.DataAccess.Entities
     public class FeedbackSeasonDataAccess : BaseDataAccess<FeedbackSeason>
     {
         public FeedbackSeasonDataAccess(ApplicationContext ctx) : base(ctx) { }
-        
+
+        public FeedbackSeason GetByDate(DateTime date)
+        {
+            return GetBaseQueryable().Where(x => x.StartDate <= date && x.EndDate >= date).FirstOrDefault();
+        }
+
     }
 }
