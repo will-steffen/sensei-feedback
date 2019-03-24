@@ -29,6 +29,7 @@ namespace Feedback.DomainModel.Entities
         public long IdFeedback { get; set; }
 
         [ForeignKey("IdFeedback")]
+        [InverseProperty("EvaluateList")]
         public virtual FeedbackModel Feedback { get; set; }
    
     }

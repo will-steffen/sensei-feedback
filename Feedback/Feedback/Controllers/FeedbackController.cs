@@ -64,9 +64,22 @@ namespace Feedback.Controllers
 
         [SwaggerOperation(Summary = "Save a new Feedback")]
         [HttpPost]
-        public ActionResult Post([FromBody] SaveFeedbackRequestDTO dto)
+        public ActionResult<FeedbackDTO> Post([FromBody] SaveFeedbackRequestDTO dto)
         {
-            return Ok();
+            try
+            {
+                List<Evaluate> evaluateList = dto.evaluateList.Select(x => new Evaluate {
+                    Rate = x.rate,
+                    Comment = x.comment,
+                    IdCompetence = x.idCompetence
+                }).ToList();
+                FeedbackModel feddback = _feedbackModelBusiness.IncludeFeedback(dto.authorId, dto.targetId, dto.comment, evaluateList);
+                return Ok(new FeedbackDTO(feddback));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
 
@@ -91,6 +104,20 @@ namespace Feedback.Controllers
             try
             {
                 return Ok(_feedbackSeasonBusiness.List().ToList().Select(x => new FeedbackSeasonDTO(x)));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [SwaggerOperation(Summary = "Get the list of Feebacks")]
+        [HttpGet("list")]
+        public ActionResult<IEnumerable<FeedbackDTO>> GetList()
+        {
+            try
+            {
+                return Ok(_feedbackModelBusiness.List().ToList().Select(x => new FeedbackDTO(x)));
             }
             catch (Exception e)
             {

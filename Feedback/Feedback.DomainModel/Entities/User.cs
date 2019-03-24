@@ -44,5 +44,8 @@ namespace Feedback.DomainModel.Entities
         public virtual User ManagerUser { get; set; }
 
         public virtual List<LinkUserProject> ProjectList { get; set; }
+
+        public virtual List<FeedbackModel> FeedbackReceivedList { get; set; }
+        public virtual List<FeedbackModel> FeedbackAuthoredList { get; set; }       
     }
 }

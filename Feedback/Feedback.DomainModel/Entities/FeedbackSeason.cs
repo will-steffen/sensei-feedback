@@ -15,5 +15,6 @@ namespace Feedback.DomainModel.Entities
         public DateTime EndDate { get; set; }
 
         public virtual List<FeedbackModel> FeedbackList { get; set; }
+
     }
 }

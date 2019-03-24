@@ -12,16 +12,9 @@ namespace Feedback.DomainModel.Entities
         [Column("id_author_user")]
         public long IdAuthorUser { get; set; }
 
-        [ForeignKey("IdAuthorUser")]
-        public virtual User AuthorUser { get; set; }
-
-
 
         [Column("id_target_user")]
         public long IdTargetUser { get; set; }
-
-        [ForeignKey("IdTargetUser")]
-        public virtual User TargetUser { get; set; }
 
 
 
@@ -37,6 +30,7 @@ namespace Feedback.DomainModel.Entities
         public long IdFeedbackSeason { get; set; }
 
         [ForeignKey("IdFeedbackSeason")]
+        [InverseProperty("FeedbackList")]
         public virtual FeedbackSeason FeedbackSeason { get; set; }
 
 

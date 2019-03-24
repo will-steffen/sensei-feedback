@@ -20,6 +20,11 @@ namespace Feedback.Business.Entities
             _userBusiness = userBusiness;
         }
 
+        public IEnumerable<FeedbackModel> List()
+        {
+            return _feedbackModelDataAccess.List();
+        }
+
         public FeedbackModel GetById(long id)
         {
             FeedbackModel fm = _feedbackModelDataAccess.GetById(id);
@@ -34,6 +39,19 @@ namespace Feedback.Business.Entities
         {
             List<User> relatedUsers = _userBusiness.GetRelatedUsers(userId);
             return relatedUsers.Select(x => new Tuple<User, FeedbackModel>(x, null)).ToList();
+        }
+
+        public FeedbackModel IncludeFeedback(long authorId, long targetId, string comment, List<Evaluate> evaluateList)
+        {
+            FeedbackModel feedback = new FeedbackModel
+            {
+                Comment = comment,
+                IdAuthorUser = authorId,
+                IdTargetUser = targetId,
+                EvaluateList = evaluateList
+            };
+            _feedbackModelDataAccess.Save(feedback);
+            return feedback;
         }
 
     }
