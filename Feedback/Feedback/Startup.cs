@@ -28,18 +28,18 @@ namespace Feedback
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // In production, the Angular files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "ClientApp/dist";
-            });
+            //services.AddSpaStaticFiles(configuration =>
+            //{
+            //    configuration.RootPath = "ClientApp/dist";
+            //});
 
             services.AddSwaggerGen(c =>
             {
                 c.EnableAnnotations();
-                c.SwaggerDoc("0.0.1", new Info
+                c.SwaggerDoc("1.0", new Info
                 {
                     Title = "SenseiFeedback",
-                    Version = "0.0.1"
+                    Version = "1.0"
                 });
             });
 
@@ -88,12 +88,12 @@ namespace Feedback
             app.UseSwaggerUI(c =>
             {
                 c.RoutePrefix = "docs";
-                c.SwaggerEndpoint($"./../swagger/0.0.1/swagger.json", "SenseiFeedback");
+                c.SwaggerEndpoint($"./../swagger/1.0/swagger.json", "SenseiFeedback");
             });
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseSpaStaticFiles();
+            //app.UseSpaStaticFiles();
 
             app.UseMvc(routes =>
             {
@@ -102,18 +102,18 @@ namespace Feedback
                     template: "{controller}/{action=Index}/{id?}");
             });
 
-            app.UseSpa(spa =>
-            {
-                // To learn more about options for serving an Angular SPA from ASP.NET Core,
-                // see https://go.microsoft.com/fwlink/?linkid=864501
+            //app.UseSpa(spa =>
+            //{
+            //    // To learn more about options for serving an Angular SPA from ASP.NET Core,
+            //    // see https://go.microsoft.com/fwlink/?linkid=864501
 
-                spa.Options.SourcePath = "ClientApp";
+            //    spa.Options.SourcePath = "ClientApp";
 
-                if (env.IsDevelopment())
-                {
-                    spa.UseAngularCliServer(npmScript: "start");
-                }
-            });
+            //    if (env.IsDevelopment())
+            //    {
+            //        spa.UseAngularCliServer(npmScript: "start");
+            //    }
+            //});
 
             app.UseCors("CORS_POLICY_NAME");
 
