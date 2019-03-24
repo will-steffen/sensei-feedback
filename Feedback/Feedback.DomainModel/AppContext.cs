@@ -10,7 +10,7 @@ namespace Feedback.DomainModel
     {
         public DbSet<Competence> Competence { get; set; }
         public DbSet<Evaluate> Evaluate { get; set; }
-        public DbSet<Entities.Feedback> Feedback { get; set; }
+        public DbSet<FeedbackModel> Feedback { get; set; }
         public DbSet<FeedbackSeason> FeedbackSeason { get; set; }
         public DbSet<LinkUserProject> LinkUserProject { get; set; }
         public DbSet<Project> Project { get; set; }

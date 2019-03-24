@@ -38,7 +38,7 @@ namespace Feedback.DomainModel.Entities
         public Role Role { get; set; }
 
         [Column("id_manager_user")]
-        public long IdManagerUser { get; set; }
+        public long? IdManagerUser { get; set; }
 
         [ForeignKey("IdManagerUser")]
         public virtual User ManagerUser { get; set; }

@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Feedback.DomainModel.Entities
 {
     [Table("feedback")]
-    public class Feedback : BaseModel
+    public class FeedbackModel : BaseModel
     {
         [Column("id_author_user")]
         public long IdAuthorUser { get; set; }
@@ -37,6 +38,11 @@ namespace Feedback.DomainModel.Entities
 
         [ForeignKey("IdFeedbackSeason")]
         public virtual FeedbackSeason FeedbackSeason { get; set; }
+
+
+        [Column("txt_comment")]
+        [StringLength(500)]
+        public string Comment { get; set; }
 
 
 

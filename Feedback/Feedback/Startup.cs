@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace Feedback
 {
@@ -27,6 +28,23 @@ namespace Feedback
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+
+            services.AddSwaggerGen(c =>
+            {
+                c.EnableAnnotations();
+                c.SwaggerDoc("0.0.1", new Info
+                {
+                    Title = "SenseiFeedback",
+                    Version = "0.0.1"
+                });
+            });
+
+            services.AddCors(o => o.AddPolicy("CORS_POLICY_NAME", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,6 +60,13 @@ namespace Feedback
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.RoutePrefix = "docs";
+                c.SwaggerEndpoint($"./../swagger/0.0.1/swagger.json", "SenseiFeedback");
+            });
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -66,6 +91,9 @@ namespace Feedback
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
+
+            app.UseCors("CORS_POLICY_NAME");
+
         }
     }
 }
