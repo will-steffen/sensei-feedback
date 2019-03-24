@@ -14,15 +14,18 @@ namespace Feedback.Business.Entities
         public UserDataAccess _userDataAccess { get; set; }
         public FeedbackSeasonDataAccess _feedbackSeasonDataAccess { get; set; }
         public ProjectDataAccess _projectDataAccess { get; set; }
+        public CompetenceDataAccess _competenceDataAccess { get; set; }
 
         public MockBusiness(
             UserDataAccess userDataAccess, 
             FeedbackSeasonDataAccess feedbackSeasonDataAccess,
-            ProjectDataAccess projectDataAccess
+            ProjectDataAccess projectDataAccess,
+            CompetenceDataAccess competenceDataAccess
         ) {
             _userDataAccess = userDataAccess;
             _feedbackSeasonDataAccess = feedbackSeasonDataAccess;
             _projectDataAccess = projectDataAccess;
+            _competenceDataAccess = competenceDataAccess;
         }
 
         public void Mock()
@@ -30,6 +33,7 @@ namespace Feedback.Business.Entities
             MockUsers();
             MockSeasons();
             MockProject();
+            MockCompetences();
         }
 
         private void MockUsers()
@@ -125,6 +129,31 @@ namespace Feedback.Business.Entities
                 };
             });
             _userDataAccess.Save(userList);
+        }
+
+        private void MockCompetences()
+        {
+            List<Competence> competenceList = new List<Competence>
+            {
+                new Competence
+                {
+                    Name = "Communication",
+                    Description = "Is this person a good Communicator?"
+                },
+                new Competence
+                {
+                    Name = "Leader",
+                    Description = "Is this person a good Leader?",
+                    Role = Role.Manager
+                },
+                new Competence
+                {
+                    Name = "Team Work",
+                    Description = "Is this a good person to work with?",
+                    Role = Role.Intern
+                },
+            };
+            _competenceDataAccess.Save(competenceList);
         }
     }
 }

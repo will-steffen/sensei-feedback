@@ -54,11 +54,16 @@ namespace Feedback
             services.AddScoped<FeedbackSeasonDataAccess>();
             services.AddScoped<UserDataAccess>();
             services.AddScoped<ProjectDataAccess>();
+            services.AddScoped<CompetenceDataAccess>();
+
             
             services.AddScoped<UserBusiness>();
             services.AddScoped<MockBusiness>();
+            services.AddScoped<CompetenceBusiness>();
 
             
+
+
 
             IServiceProvider serviceProvider = services.BuildServiceProvider();
 
