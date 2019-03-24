@@ -1,8 +1,10 @@
 ﻿using Feedback.DataAccess.Entities;
+using Feedback.DomainModel;
 using Feedback.DomainModel.Entities;
 using Feedback.DomainModel.Enums;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Feedback.Business.Entities
@@ -10,15 +12,24 @@ namespace Feedback.Business.Entities
     public class MockBusiness
     {
         public UserDataAccess _userDataAccess { get; set; }
+        public FeedbackSeasonDataAccess _feedbackSeasonDataAccess { get; set; }
+        public ProjectDataAccess _projectDataAccess { get; set; }
 
-        public MockBusiness(UserDataAccess userDataAccess)
-        {
+        public MockBusiness(
+            UserDataAccess userDataAccess, 
+            FeedbackSeasonDataAccess feedbackSeasonDataAccess,
+            ProjectDataAccess projectDataAccess
+        ) {
             _userDataAccess = userDataAccess;
+            _feedbackSeasonDataAccess = feedbackSeasonDataAccess;
+            _projectDataAccess = projectDataAccess;
         }
 
         public void Mock()
         {
             MockUsers();
+            MockSeasons();
+            MockProject();
         }
 
         private void MockUsers()
@@ -67,6 +78,53 @@ namespace Feedback.Business.Entities
                 ManagerUser = engineers[0]
             };
             _userDataAccess.Save(intern);
+        }
+
+        private void MockSeasons()
+        {
+            DateTime date = DateUtils.Now().AddDays(-1);
+            FeedbackSeason season = new FeedbackSeason
+            {
+                StartDate = date,
+                EndDate = date.AddDays(5)
+            };
+            _feedbackSeasonDataAccess.Save(season);
+
+            FeedbackSeason season2 = new FeedbackSeason
+            {
+                StartDate = date.AddDays(5),
+                EndDate = date.AddDays(15)
+            };
+            _feedbackSeasonDataAccess.Save(season2);
+
+            FeedbackSeason season3 = new FeedbackSeason
+            {
+                StartDate = date.AddDays(15),
+                EndDate = date.AddDays(30)
+            };
+            _feedbackSeasonDataAccess.Save(season3);
+
+            FeedbackSeason season4 = new FeedbackSeason
+            {
+                StartDate = date.AddDays(30),
+                EndDate = date.AddDays(60)
+            };
+            _feedbackSeasonDataAccess.Save(season3);
+        }
+
+        private void MockProject()
+        {
+            Project project = new Project { Name = "Awesome Project" };
+            _projectDataAccess.Save(project);
+
+            List<User> userList = _userDataAccess.List().ToList();
+            userList.ForEach(x => {
+                x.ProjectList = new List<LinkUserProject>
+                {
+                    new LinkUserProject { Project = project }
+                };
+            });
+            _userDataAccess.Save(userList);
         }
     }
 }

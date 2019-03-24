@@ -51,9 +51,14 @@ namespace Feedback
             }));
 
             services.AddDbContext<ApplicationContext>();
+            services.AddScoped<FeedbackSeasonDataAccess>();
             services.AddScoped<UserDataAccess>();
+            services.AddScoped<ProjectDataAccess>();
+            
             services.AddScoped<UserBusiness>();
             services.AddScoped<MockBusiness>();
+
+            
 
             IServiceProvider serviceProvider = services.BuildServiceProvider();
 
