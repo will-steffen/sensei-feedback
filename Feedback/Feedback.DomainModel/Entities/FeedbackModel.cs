@@ -39,7 +39,6 @@ namespace Feedback.DomainModel.Entities
         public string Comment { get; set; }
 
 
-
         public virtual List<Evaluate> EvaluateList { get; set; }
     }
 }

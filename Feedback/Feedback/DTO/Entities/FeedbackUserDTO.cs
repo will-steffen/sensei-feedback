@@ -23,7 +23,7 @@ namespace Feedback.DTO.Entities
             averageRate = 0;
             if (feedback != null)
             {
-                if (feedback.EvaluateList.Any())
+                if (feedback.EvaluateList != null)
                     averageRate = feedback.EvaluateList.Sum(x => (int)x.Rate) / feedback.EvaluateList.Count;
                 idFeedback = feedback.Id;
             }

@@ -18,5 +18,10 @@ namespace Feedback.DataAccess.Entities
                 .Include(x => x.EvaluateList);
         }
 
+        public FeedbackModel GetByUsersIds(long authorId, long targetId)
+        {
+            return GetBaseQueryable().Where(x => x.IdAuthorUser == authorId && x.IdTargetUser == targetId).FirstOrDefault();
+        }
+
     }
 }

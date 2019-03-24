@@ -38,7 +38,14 @@ namespace Feedback.Business.Entities
         public List<Tuple<User, FeedbackModel>> GetUsersToFeedback(long userId)
         {
             List<User> relatedUsers = _userBusiness.GetRelatedUsers(userId);
-            return relatedUsers.Select(x => new Tuple<User, FeedbackModel>(x, null)).ToList();
+            List<Tuple<User, FeedbackModel>> feedbacks = new List<Tuple<User, FeedbackModel>>();
+
+            relatedUsers.ForEach(x =>
+            {
+                FeedbackModel feedback = _feedbackModelDataAccess.GetByUsersIds(userId, x.Id);
+                feedbacks.Add(new Tuple<User, FeedbackModel>(x, feedback));
+            });
+            return feedbacks;
         }
 
         public FeedbackModel IncludeFeedback(long authorId, long targetId, string comment, List<Evaluate> evaluateList)
