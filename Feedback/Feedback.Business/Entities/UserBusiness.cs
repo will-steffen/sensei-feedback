@@ -17,7 +17,12 @@ namespace Feedback.Business.Entities
 
         public User GetById(long id)
         {
-            return _userDataAccess.GetById(id);
+            User user = _userDataAccess.GetById(id);
+            if (user == null)
+            {
+                throw new Exception("invalid userId");
+            }
+            return user;
         }
 
         public User Authenticate(string username, string password)

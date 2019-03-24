@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Feedback.Business.Entities;
 using Feedback.DomainModel;
 using Feedback.DomainModel.Entities;
 using Feedback.DomainModel.Enums;
@@ -11,23 +12,29 @@ using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Feedback.Controllers
-{    
+{
     public class UserController : BaseController
     {
-        [SwaggerOperation(Summary = "Get information of Current User")]
-        [HttpGet]
-        public ActionResult<UserDTO> Get()
+        private UserBusiness _userBusiness;
+
+        public UserController(UserBusiness userBusiness)
         {
-            User user = new User
+            _userBusiness = userBusiness;
+        }
+
+        [SwaggerOperation(Summary = "Get information of Current User")]
+        [HttpGet("{id}")]
+        public ActionResult<UserDTO> Get(long id)
+        {
+            try
             {
-                Id = 1,
-                Name = "A Greate User",
-                Username = "user",
-                Email = "user@sensei-fedback.com",
-                Role = Role.Engineer,
-                IdManagerUser = 2,
-            };
-            return Ok(new UserDTO());
+                User user = _userBusiness.GetById(id);
+                return Ok(new UserDTO(user));
+            }
+            catch (Exception e)
+            {
+                return BadRequest();
+            }
         }
 
 
