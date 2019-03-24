@@ -2,6 +2,7 @@
 using Feedback.DomainModel.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Feedback.Business.Entities
@@ -34,6 +35,19 @@ namespace Feedback.Business.Entities
                 throw new Exception("invalid credentials");
             }
             return user;
+        }
+
+        public List<User> GetRelatedUsers(long id)
+        {
+            // I know there is better ways to do that
+            User user = GetById(id);
+            IEnumerable<User> relatedUsers = _userDataAccess.GetSubAlterneUsers(user.Id);
+            if(user.IdManagerUser != null)
+            {
+                relatedUsers = relatedUsers.Concat(_userDataAccess.GetColeagueUsers(user.Id, user.IdManagerUser.Value));
+                relatedUsers = relatedUsers.Concat(_userDataAccess.GetManagerUsers(user.IdManagerUser.Value));
+            }
+            return relatedUsers.ToList();
         }
     }
 }

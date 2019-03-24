@@ -33,33 +33,18 @@ namespace Feedback.Controllers
         [SwaggerOperation(
             Summary = "Get Feedback UserList",
             Description = "Get a list of User the current User have to evaluate")]
-        [HttpGet]
-        public ActionResult<IEnumerable<FeedbackUserDTO>> Get()
-        {
-            List<User> compList = new List<User>
+        [HttpGet("user/{id}")]
+        public ActionResult<IEnumerable<FeedbackUserDTO>> Get(long id)
+        {            
+            try
             {
-                new User
-                {
-                    Id = 2,
-                    Name = "Manager",
-                    Role = Role.Manager
-                },
-                new User
-                {
-                    Id = 3,
-                    Name = "Colleague",
-                    Role = Role.Engineer,
-                    IdManagerUser = 2,
-                },
-                new User
-                {
-                    Id = 4,
-                    Name = "Intern",
-                    Role = Role.Intern,
-                    IdManagerUser = 1,
-                }
-            };
-            return Ok(compList.Select(x => new FeedbackUserDTO(x)));
+                List<Tuple<User, FeedbackModel>> ufList = _feedbackModelBusiness.GetUsersToFeedback(id);
+                return Ok(ufList.Select(x => new FeedbackUserDTO(x.Item1, x.Item2)));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [SwaggerOperation(Summary = "Get Feedback details by FeedbackId")]
@@ -73,7 +58,7 @@ namespace Feedback.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest();
+                return BadRequest(e.Message);
             }
         }
 

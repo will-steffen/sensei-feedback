@@ -15,5 +15,20 @@ namespace Feedback.DataAccess.Entities
         {
             return GetBaseQueryable().Where(x => x.Username == username).FirstOrDefault();
         }
+
+        public IEnumerable<User> GetSubAlterneUsers(long id)
+        {
+            return GetBaseQueryable().Where(x => x.IdManagerUser == id);
+        }
+
+        public IEnumerable<User> GetColeagueUsers(long id, long managerId)
+        {
+            return GetBaseQueryable().Where(x => x.Id != id && x.IdManagerUser == managerId);
+        }
+
+        public IEnumerable<User> GetManagerUsers(long managerId)
+        {
+            return GetBaseQueryable().Where(x => x.Id == managerId);
+        }
     }
 }
