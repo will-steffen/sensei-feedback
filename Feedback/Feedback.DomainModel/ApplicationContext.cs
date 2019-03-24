@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Feedback.DomainModel
 {
-    public class AppContext : DbContext
+    public class ApplicationContext : DbContext
     {
         public DbSet<Competence> Competence { get; set; }
         public DbSet<Evaluate> Evaluate { get; set; }
@@ -15,5 +15,13 @@ namespace Feedback.DomainModel
         public DbSet<LinkUserProject> LinkUserProject { get; set; }
         public DbSet<Project> Project { get; set; }
         public DbSet<User> User { get; set; }
+
+
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseInMemoryDatabase("DB_NAME");
+        }            
+        
     }
 }

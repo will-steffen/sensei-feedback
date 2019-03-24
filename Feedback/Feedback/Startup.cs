@@ -1,3 +1,6 @@
+using Feedback.Business.Entities;
+using Feedback.DataAccess.Entities;
+using Feedback.DomainModel;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -6,6 +9,7 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
+using System;
 
 namespace Feedback
 {
@@ -45,6 +49,16 @@ namespace Feedback
                        .AllowAnyMethod()
                        .AllowAnyHeader();
             }));
+
+            services.AddDbContext<ApplicationContext>();
+            services.AddScoped<UserDataAccess>();
+            services.AddScoped<UserBusiness>();
+            services.AddScoped<MockBusiness>();
+
+            IServiceProvider serviceProvider = services.BuildServiceProvider();
+
+            MockBusiness m = serviceProvider.GetService<MockBusiness>();
+            m.Mock();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

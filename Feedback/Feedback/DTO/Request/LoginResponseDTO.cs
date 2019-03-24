@@ -8,5 +8,6 @@ namespace Feedback.DTO.Request
     public class LoginResponseDTO
     {
         public string accessToken { get; set; }
+        public long userId { get; set; }
     }
 }

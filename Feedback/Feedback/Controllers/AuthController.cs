@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Feedback.Business.Entities;
+using Feedback.DomainModel.Entities;
 using Feedback.DTO.Request;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -10,19 +12,26 @@ namespace Feedback.Controllers
 {
     public class AuthController : BaseController
     {
+        private UserBusiness _userBusiness;
 
-        [SwaggerOperation(Summary = "Verify if accessToken is valid")]
-        [HttpGet]
-        public ActionResult<bool> Get()
+        public AuthController(UserBusiness userBusiness)
         {
-            return true;
+            _userBusiness = userBusiness;
         }
 
         [SwaggerOperation(Summary = "Authenticate User")]
         [HttpPost]
         public ActionResult<LoginResponseDTO> Post([FromBody] LoginRequestDTO dto)
         {
-            return Ok(new LoginResponseDTO { accessToken = "nygwfyg34necr-3vr-3c54f345fv" });
+            try
+            {
+                User user = _userBusiness.Authenticate(dto.username, dto.password);
+                return Ok(new LoginResponseDTO { userId = user.Id });
+            }
+            catch (Exception e)
+            {
+                return BadRequest();
+            }
         }
 
     }

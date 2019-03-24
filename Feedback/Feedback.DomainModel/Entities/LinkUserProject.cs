@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Feedback.DomainModel.Entities
 {
-    public class LinkUserProject
+    public class LinkUserProject : BaseModel
     {
         [Column("id_user")]
         public long IdUser { get; set; }
